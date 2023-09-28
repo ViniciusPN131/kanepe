@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class KanepeMain {
 
 	private static final String NOMEADM = "LoginADM";
-	private static final String SENHAADM = "SenhaADM";	
-	
+	private static final String SENHAADM = "SenhaADM";
+
 	public static void main(String[] args) {
 		ArrayList<Usuario> novoCadastro = new ArrayList<>();
 		Scanner leitura = new Scanner(System.in);
@@ -23,10 +23,10 @@ public class KanepeMain {
 				break;
 			case 2: {
 				if (loginADM()) {
-                    System.out.println("Login ADM bem-sucedido!");
-                } else {
-                    System.out.println("Login ADM falhou.");
-                }
+					System.out.println("Login ADM bem-sucedido!");
+				} else {
+					System.out.println("Login ADM falhou.");
+				}
 			}
 				break;
 			case 3: {
@@ -41,7 +41,7 @@ public class KanepeMain {
 				break;
 			case 4: {
 				System.out.println("Programa encerrado!");
-				opcao = 4;
+
 			}
 				break;
 			}
@@ -51,7 +51,6 @@ public class KanepeMain {
 	}
 //	----------------------------------MENUS-----------------------------------------------------------------------
 
-	
 //	===================================MENUPRINCIPAL==============================================================
 	private static Integer menu1() {
 
@@ -138,16 +137,37 @@ public class KanepeMain {
 	}
 
 //	====================================LoginADM================================================================
-	
+
 	private static boolean loginADM() {
 	    Scanner leitura = new Scanner(System.in);
-	    
+	    String nomeUsuarioADM = "";
+	    String senhaADM = "";
+
+		boolean loginValido = false;
+
+		while (!loginValido) {
 	    System.out.println("Digite o nome de usuário ADM:");
-	    String nomeUsuarioADM = leitura.nextLine();
+	    nomeUsuarioADM = leitura.nextLine();
 	    System.out.println("Digite a senha ADM:");
-	    String senhaADM = leitura.nextLine();
+	    senhaADM = leitura.nextLine();
 	    
-	    return nomeUsuarioADM.equals(NOMEADM) && senhaADM.equals(SENHAADM);
+	    if(nomeUsuarioADM.equals(NOMEADM)&&senhaADM.equals(SENHAADM)) {
+	    	loginValido = true;
+	    	break;
+	    }
+	    
+	    if (!loginValido) {
+			System.out.println("Nome de usuário ou senha incorretos. Deseja tentar novamente? (S/N)");
+			String resposta = leitura.nextLine();
+
+			if (!resposta.equalsIgnoreCase("S")) {
+				break;
+			}
+		}
+	    
+		}
+	    
+		return loginValido ? true : false;
 	}
-	
+
 }
