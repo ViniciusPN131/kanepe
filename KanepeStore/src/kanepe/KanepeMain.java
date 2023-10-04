@@ -7,22 +7,23 @@ public class KanepeMain {
 
 	private static final String NOMEADM = "LoginADM";
 	private static final String SENHAADM = "SenhaADM";
+	private static ArrayList<Estoque> listaItens = new ArrayList<>();
+	private static ArrayList<Usuario> novoCadastro = new ArrayList<>();
 
 	public static void main(String[] args) {
-		ArrayList<Usuario> novoCadastro = new ArrayList<>();
 
 		Scanner leitura = new Scanner(System.in);
 		Integer opcao = Integer.MAX_VALUE;
 
-		while (opcao != 4) {
+		while (opcao != 3) {
 			opcao = menu1();
 
 			switch (opcao) {
-			case 1: {
+			case 0: {
 				novoCadastro.add(cadastro());
 			}
 				break;
-			case 2: {
+			case 1: {
 				if (loginADM()) {
 					System.out.println("Login ADM bem-sucedido!");
 					menuADM();
@@ -34,7 +35,7 @@ public class KanepeMain {
 			}
 
 				break;
-			case 3: {
+			case 2: {
 				Usuario usuarioLogado = login(novoCadastro);
 				if (usuarioLogado != null) {
 					System.out.println("Login bem-sucedido para: " + usuarioLogado.getNome());
@@ -44,7 +45,7 @@ public class KanepeMain {
 
 			}
 				break;
-			case 4: {
+			case 3: {
 				System.out.println("Programa encerrado!");
 
 			}
@@ -52,14 +53,13 @@ public class KanepeMain {
 			}
 
 		}
-
+		
 	}
 
 //	====================================MenuADM================================================================
 	private static Integer menuADM() {
 		Integer opcao = 0;
 		Scanner leitura = new Scanner(System.in);
-		ArrayList<Estoque> listaItens = new ArrayList<>();
 
 		while (opcao != 4) {
 			System.out.println("BEM VINDO A KANEPE\n");
@@ -78,9 +78,24 @@ public class KanepeMain {
 
 			}
 				break;
+			case 1: {
+				Boolean removido = removerItem();
+				if (removido.equals(false)) {
+					System.out.println("Item inexistente!");
+				} else {
+					System.out.println("Removido com sucesso!");
+				}
 			}
+				break;
+			case 3: {
+				listarItens();
+			}
+			break;
+			}
+			
 
 		}
+		
 		return opcao;
 	}
 
@@ -92,16 +107,16 @@ public class KanepeMain {
 	private static Integer menu1() {
 
 		System.out.println("BEM VINDO A KANEPE\n");
-		System.out.println("1 - Cadastrar");
-		System.out.println("2 - LogarADM");
-		System.out.println("3 - Logar");
-		System.out.println("4 - Sair\n");
+		System.out.println("0 - Cadastrar");
+		System.out.println("1 - LogarADM");
+		System.out.println("2 - Logar");
+		System.out.println("3 - Sair\n");
 		System.out.println("selecione a opção para continuar:");
 
 		Scanner leitura = new Scanner(System.in);
 
 		Integer opcao = Integer.valueOf(leitura.nextLine());
-
+		
 		return opcao;
 
 	}
@@ -136,6 +151,7 @@ public class KanepeMain {
 				}
 			}
 		}
+		
 		return pessoa;
 	}
 
@@ -170,6 +186,7 @@ public class KanepeMain {
 				}
 			}
 		}
+		
 		return loginValido ? pessoa : null;
 	}
 
@@ -203,7 +220,7 @@ public class KanepeMain {
 			}
 
 		}
-
+		
 		return loginValido ? true : null;
 	}
 
@@ -231,9 +248,48 @@ public class KanepeMain {
 		item.setValidade(validade);
 		item.setPreco(opcao);
 		item.setTipoProduto(tipoProtudo);
-		
-		System.out.println("Adcioando com Sucesso");
 
+		System.out.println("Adcioando com Sucesso");
+		
 		return item;
 	}
+
+// =================================================Remover===============================================================
+	private static boolean removerItem() {
+		Scanner leitura = new Scanner(System.in);
+
+		System.out.println("Digite id od item que deseja ser apagado.");
+		Integer id = Integer.valueOf(leitura.nextLine());
+		
+		for (Estoque item : listaItens) {
+			if (id == item.getId()) {
+				listaItens.remove(item);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+// =================================================Alterar===============================================================	
+
+// =================================================Listar===============================================================
+	private static Estoque listarItens() {
+	
+	System.out.println("Todos os itens do Estoque");
+	Integer i = 1;
+	for (Estoque estoque : listaItens) {
+		
+		System.out.println("Nome do item "+i+": "+estoque.getNome());
+		System.out.println("Id do item "+i+": "+estoque.getId());
+		System.out.println("Espécie do item "+i+": "+estoque.getEspecie());
+		System.out.println("Validade do item "+i+": "+estoque.getValidade());
+		System.out.println("Tipo do item "+i+": "+estoque.getTipoProduto());
+		System.out.println("Preço do item "+i+": "+estoque.getPreco()+"\n");
+		i++;
+		
+	}
+		return null;
+	}
+	
 }
