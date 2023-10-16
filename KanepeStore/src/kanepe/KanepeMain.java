@@ -53,7 +53,7 @@ public class KanepeMain {
 			}
 
 		}
-		
+
 	}
 
 //	====================================MenuADM================================================================
@@ -65,7 +65,7 @@ public class KanepeMain {
 			System.out.println("BEM VINDO A KANEPE\n");
 			System.out.println("0 - Adcionar item");
 			System.out.println("1 - Remover item");
-			System.out.println("2 - Alteral item");
+			System.out.println("2 - Alterar item");
 			System.out.println("3 - Listar item");
 			System.out.println("4 - Sair\n");
 			System.out.println("selecione a opção para continuar:");
@@ -87,15 +87,23 @@ public class KanepeMain {
 				}
 			}
 				break;
+			case 2: {
+				Boolean alterado = alterarItem();
+				if (alterado.equals(false)) {
+					System.out.println("Item inexistente!");
+				} else {
+					System.out.println("Alterado com sucesso!");
+				}
+			}
+				break;
 			case 3: {
 				listarItens();
 			}
-			break;
+				break;
 			}
-			
 
 		}
-		
+
 		return opcao;
 	}
 
@@ -116,7 +124,7 @@ public class KanepeMain {
 		Scanner leitura = new Scanner(System.in);
 
 		Integer opcao = Integer.valueOf(leitura.nextLine());
-		
+
 		return opcao;
 
 	}
@@ -151,7 +159,7 @@ public class KanepeMain {
 				}
 			}
 		}
-		
+
 		return pessoa;
 	}
 
@@ -186,7 +194,7 @@ public class KanepeMain {
 				}
 			}
 		}
-		
+
 		return loginValido ? pessoa : null;
 	}
 
@@ -220,7 +228,7 @@ public class KanepeMain {
 			}
 
 		}
-		
+
 		return loginValido ? true : null;
 	}
 
@@ -231,16 +239,16 @@ public class KanepeMain {
 
 		System.out.println("Digite o nome ");
 		String nome = leitura.nextLine();
-		System.out.println("Digite a especie");
-		String especie = leitura.nextLine();
 		System.out.println("Digite o id");
 		Integer id = Integer.valueOf(leitura.nextLine());
+		System.out.println("Digite o tipo");
+		String tipoProtudo = leitura.nextLine();
+		System.out.println("Digite a especie");
+		String especie = leitura.nextLine();
 		System.out.println("Digite a validade");
 		String validade = leitura.nextLine();
 		System.out.println("Digite o preco");
 		Double opcao = Double.valueOf(leitura.nextLine());
-		System.out.println("Digite o tipo");
-		String tipoProtudo = leitura.nextLine();
 
 		item.setNome(nome);
 		item.setEspecie(especie);
@@ -250,7 +258,7 @@ public class KanepeMain {
 		item.setTipoProduto(tipoProtudo);
 
 		System.out.println("Adcioando com Sucesso");
-		
+
 		return item;
 	}
 
@@ -260,36 +268,117 @@ public class KanepeMain {
 
 		System.out.println("Digite id od item que deseja ser apagado.");
 		Integer id = Integer.valueOf(leitura.nextLine());
-		
+
 		for (Estoque item : listaItens) {
 			if (id == item.getId()) {
 				listaItens.remove(item);
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
 // =================================================Alterar===============================================================	
+	private static boolean alterarItem() {
+		Scanner leitura = new Scanner(System.in);
+
+		System.out.println("Digite o ID do item que deseja ser alterado:");
+		Integer id = Integer.valueOf(leitura.nextLine());
+
+		for (Estoque item : listaItens) {
+			if (id.equals(item.getId())) {
+				System.out.println("Qual informação deseja alterar?");
+				System.out.println("0 - Nome");
+				System.out.println("1 - ID");
+				System.out.println("2 - Tipo");
+				System.out.println("3 - Espécie");
+				System.out.println("4 - Validade");
+				System.out.println("5 - Preço");
+				System.out.println("6 - Todas as informações");
+				int opc = Integer.valueOf(leitura.nextLine());
+
+				switch (opc) {
+				case 0:
+					System.out.println("Digite o novo nome: ");
+					String novoNome = leitura.nextLine();
+					item.setNome(novoNome);
+					break;
+				case 1:
+					System.out.println("Digite o novo ID: ");
+					Integer novoId = Integer.valueOf(leitura.nextLine());
+					item.setId(novoId);
+					break;
+				case 2:
+					System.out.println("Digite o novo tipo: ");
+					String novoTipo = leitura.nextLine();
+					item.setTipoProduto(novoTipo);
+					break;
+				case 3:
+					System.out.println("Digite a nova espécie: ");
+					String novaEspecie = leitura.nextLine();
+					item.setEspecie(novaEspecie);
+					break;
+				case 4:
+					System.out.println("Digite a nova validade: ");
+					String novaValidade = leitura.nextLine();
+					item.setValidade(novaValidade);
+					break;
+				case 5:
+					System.out.println("Digite o novo preço: ");
+					Double novoPreco = Double.valueOf(leitura.nextLine());
+					item.setPreco(novoPreco);
+					break;
+				case 6:
+					System.out.println("Digite as novas informações:");
+					System.out.println("Digite o novo nome: ");
+					String novoNomeCompleto = leitura.nextLine();
+					System.out.println("Digite o novo ID: ");
+					Integer novoIdCompleto = Integer.valueOf(leitura.nextLine());
+					System.out.println("Digite o novo tipo: ");
+					String novoTipoCompleto = leitura.nextLine();
+					System.out.println("Digite a nova espécie: ");
+					String novaEspecieCompleto = leitura.nextLine();
+					System.out.println("Digite a nova validade: ");
+					String novaValidadeCompleto = leitura.nextLine();
+					System.out.println("Digite o novo preço: ");
+					Double novoPrecoCompleto = Double.valueOf(leitura.nextLine());
+
+					item.setNome(novoNomeCompleto);
+					item.setId(novoIdCompleto);
+					item.setTipoProduto(novoTipoCompleto);
+					item.setEspecie(novaEspecieCompleto);
+					item.setValidade(novaValidadeCompleto);
+					item.setPreco(novoPrecoCompleto);
+					break;
+				default:
+					break;
+				}
+
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 // =================================================Listar===============================================================
 	private static Estoque listarItens() {
-	
-	System.out.println("Todos os itens do Estoque");
-	Integer i = 1;
-	for (Estoque estoque : listaItens) {
-		
-		System.out.println("Nome do item "+i+": "+estoque.getNome());
-		System.out.println("Id do item "+i+": "+estoque.getId());
-		System.out.println("Espécie do item "+i+": "+estoque.getEspecie());
-		System.out.println("Validade do item "+i+": "+estoque.getValidade());
-		System.out.println("Tipo do item "+i+": "+estoque.getTipoProduto());
-		System.out.println("Preço do item "+i+": "+estoque.getPreco()+"\n");
-		i++;
-		
-	}
+
+		System.out.println("Todos os itens do Estoque");
+		Integer i = 1;
+		for (Estoque estoque : listaItens) {
+
+			System.out.println("Nome do item " + i + ": " + estoque.getNome());
+			System.out.println("Id do item " + i + ": " + estoque.getId());
+			System.out.println("Tipo do item " + i + ": " + estoque.getTipoProduto());
+			System.out.println("Espécie do item " + i + ": " + estoque.getEspecie());
+			System.out.println("Validade do item " + i + ": " + estoque.getValidade());
+			System.out.println("Preço do item " + i + ": " + estoque.getPreco() + "\n");
+			i++;
+
+		}
 		return null;
 	}
-	
+
 }
