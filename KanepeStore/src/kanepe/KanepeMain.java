@@ -50,6 +50,10 @@ public class KanepeMain {
 
 			}
 				break;
+			case 4: {
+
+				menuADM();
+			}
 			}
 
 		}
@@ -80,7 +84,7 @@ public class KanepeMain {
 				break;
 			case 1: {
 				Boolean removido = removerItem();
-				if (removido.equals(false)) {
+				if (!removido) {
 					System.out.println("Item inexistente!");
 				} else {
 					System.out.println("Removido com sucesso!");
@@ -89,7 +93,7 @@ public class KanepeMain {
 				break;
 			case 2: {
 				Boolean alterado = alterarItem();
-				if (alterado.equals(false)) {
+				if (!alterado) {
 					System.out.println("Item inexistente!");
 				} else {
 					System.out.println("Alterado com sucesso!");
@@ -364,18 +368,106 @@ public class KanepeMain {
 
 // =================================================Listar===============================================================
 	private static Estoque listarItens() {
+		Scanner leitura = new Scanner(System.in);
 
-		System.out.println("Todos os itens do Estoque");
-		Integer i = 1;
-		for (Estoque estoque : listaItens) {
+		System.out.println("Opcoes de listagem: \n");
+		System.out.println("0-Todos os itens do estoque");
+		System.out.println("1-Por nome");
+		System.out.println("2-Por tipo");
+		System.out.println("3-por id");
+		System.out.println("4-sair");
+		Integer opc = Integer.valueOf(leitura.nextLine());
 
-			System.out.println("Nome do item " + i + ": " + estoque.getNome());
-			System.out.println("Id do item " + i + ": " + estoque.getId());
-			System.out.println("Tipo do item " + i + ": " + estoque.getTipoProduto());
-			System.out.println("Espécie do item " + i + ": " + estoque.getEspecie());
-			System.out.println("Validade do item " + i + ": " + estoque.getValidade());
-			System.out.println("Preço do item " + i + ": " + estoque.getPreco() + "\n");
-			i++;
+		switch (opc) {
+		case 0: {
+			int i = 1;
+
+			for (Estoque estoque : listaItens) {
+
+				System.out.println("Nome do item " + i + ": " + estoque.getNome());
+				System.out.println("Id do item " + i + ": " + estoque.getId());
+				System.out.println("Tipo do item " + i + ": " + estoque.getTipoProduto());
+				System.out.println("Espécie do item " + i + ": " + estoque.getEspecie());
+				System.out.println("Validade do item " + i + ": " + estoque.getValidade());
+				System.out.println("Preço do item " + i + ": " + estoque.getPreco());
+				System.out.println();
+				i++;
+
+			}
+			System.out.println("Fim da lista!");
+			listarItens();
+		}
+			break;
+		case 1: {
+			System.out.println("Digite o nome do item: ");
+			String nome = leitura.nextLine();
+			int i = 1;
+
+			for (Estoque item : listaItens) {
+				if (nome.equals(item.getNome())) {
+
+					System.out.println("Nome do item " + i + ": " + item.getNome());
+					System.out.println("Id do item " + i + ": " + item.getId());
+					System.out.println("Tipo do item " + i + ": " + item.getTipoProduto());
+					System.out.println("Especie do item " + i + ": " + item.getEspecie());
+					System.out.println("Validade do item " + i + ": " + item.getValidade());
+					System.out.println("Preco do item " + i + ": " + item.getPreco());
+					System.out.println();
+					i++;
+				}
+				System.out.println("Fim da lista!");
+				listarItens();
+			}
+		}
+			break;
+		case 2: {
+			System.out.println("Digite o tipo do item: ");
+			String tipo = leitura.nextLine();
+			int i = 1;
+
+			for (Estoque item : listaItens) {
+				if (tipo.equals(item.getTipoProduto())) {
+
+					System.out.println("Nome do item " + i + ": " + item.getNome());
+					System.out.println("Id do item " + i + ": " + item.getId());
+					System.out.println("Tipo do item " + i + ": " + item.getTipoProduto());
+					System.out.println("Especie do item " + i + ": " + item.getEspecie());
+					System.out.println("Validade do item " + i + ": " + item.getValidade());
+					System.out.println("Preco do item " + i + ": " + item.getPreco());
+					System.out.println();
+					i++;
+				}
+				System.out.println("Fim da lista!");
+				listarItens();
+			}
+		}
+			break;
+		case 3: {
+			System.out.println("Digite o id do item: ");
+			Integer id = Integer.valueOf(leitura.nextLine());
+			int i = 1;
+
+			for (Estoque item : listaItens) {
+				if (id.equals(item.getId())) {
+
+					System.out.println("Nome do item " + i + ": " + item.getNome());
+					System.out.println("Id do item " + i + ": " + item.getId());
+					System.out.println("Tipo do item " + i + ": " + item.getTipoProduto());
+					System.out.println("Especie do item " + i + ": " + item.getEspecie());
+					System.out.println("Validade do item " + i + ": " + item.getValidade());
+					System.out.println("Preco do item " + i + ": " + item.getPreco());
+					System.out.println();
+					i++;
+				}
+				System.out.println("Fim da lista!");
+				listarItens();
+			}
+		}
+			break;
+		case 4: {
+			System.out.println("Voce escolheu sair!");
+		}
+			break;
 
 		}
 		return null;
