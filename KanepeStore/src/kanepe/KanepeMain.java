@@ -9,6 +9,7 @@ public class KanepeMain {
 	private static final String SENHAADM = "SenhaADM";
 	private static ArrayList<Estoque> listaItens = new ArrayList<>();
 	private static ArrayList<Usuario> novoCadastro = new ArrayList<>();
+	private static ArrayList<Estoque> carrinho = new ArrayList<>();
 
 	public static void main(String[] args) {
 
@@ -39,6 +40,8 @@ public class KanepeMain {
 				Usuario usuarioLogado = login(novoCadastro);
 				if (usuarioLogado != null) {
 					System.out.println("Login bem-sucedido para: " + usuarioLogado.getNome());
+					menuUser();
+
 				} else {
 					System.out.println("Nome de usuário ou senha incorretos.");
 				}
@@ -54,10 +57,15 @@ public class KanepeMain {
 
 				menuADM();
 			}
+				break;
+			default: {
+				System.out.println("Opção invalida, tente novamente!");
+			}
+				break;
 			}
 
 		}
-
+		
 	}
 
 //	====================================MenuADM================================================================
@@ -104,14 +112,132 @@ public class KanepeMain {
 				listarItens();
 			}
 				break;
+			case 4: {
+				System.out.println("Voce escolheu sair!");
+			}
+			break;
+			default: {
+				System.out.println("Opção invalida, tente novamente!");
+			}
+				break;
 			}
 
 		}
-
+		
 		return opcao;
+
 	}
 
 //	====================================MenuUsuario================================================================
+	private static Integer menuUser() {
+		int opc = 0;
+		Scanner leitura = new Scanner(System.in);
+		while (opc != 3) {
+			System.out.println("-------------------------------------");
+			System.out.println("              KanepeStore            ");
+			System.out.println("-------------------------------------");
+			System.out.println("\nOpcoes de pesquisa: \n");
+			System.out.println("0-Todos os itens do estoque");
+			System.out.println("1-Por nome");
+			System.out.println("2-Por tipo");
+			System.out.println("3-sair");
+			opc = Integer.valueOf(leitura.nextLine());
+
+			switch (opc) {
+			case 0: {
+				int i = 1;
+
+				for (Estoque estoque : listaItens) {
+
+					System.out.println("Nome do produto " + i + ": " + estoque.getNome());
+					System.out.println("Id do produto " + i + ": " + estoque.getId());
+					System.out.println("Tipo do produto " + i + ": " + estoque.getTipoProduto());
+					System.out.println("Espécie do produto " + i + ": " + estoque.getEspecie());
+					System.out.println("Validade do produto " + i + ": " + estoque.getValidade());
+					System.out.println("Preço do produto " + i + ": " + estoque.getPreco());
+					System.out.println();
+					i++;
+
+				}
+				System.out.println("Fim do estoque!\n");
+				System.out.println("Deseja adicionar um item ao carrinho?");
+				String opc2 = leitura.nextLine();
+				
+				if(!opc2.equalsIgnoreCase("SIM")) {
+					carrinho.add(adicionarCarrinho());
+				}
+
+			}
+				break;
+			case 1: {
+				System.out.println("Digite o nome do produto: ");
+				String nome = leitura.nextLine();
+				int i = 1;
+
+				for (Estoque item : listaItens) {
+					if (nome.equals(item.getNome())) {
+
+						System.out.println("Nome do produto " + i + ": " + item.getNome());
+						System.out.println("Id do produto " + i + ": " + item.getId());
+						System.out.println("Tipo do produto " + i + ": " + item.getTipoProduto());
+						System.out.println("Especie do produto " + i + ": " + item.getEspecie());
+						System.out.println("Validade do produto " + i + ": " + item.getValidade());
+						System.out.println("Preco do produto " + i + ": " + item.getPreco());
+						System.out.println();
+						i++;
+					}
+					System.out.println("Fim do estoque!\n");
+					System.out.println("Deseja adicionar um item ao carrinho?");
+					String opc2 = leitura.nextLine();
+					
+					if(!opc2.equalsIgnoreCase("SIM")) {
+						carrinho.add(adicionarCarrinho());
+					}
+				}
+			}
+				break;
+			case 2: {
+				System.out.println("Digite o tipo do produto: ");
+				String tipo = leitura.nextLine();
+				int i = 1;
+
+				for (Estoque item : listaItens) {
+					if (tipo.equals(item.getTipoProduto())) {
+
+						System.out.println("Nome do produto " + i + ": " + item.getNome());
+						System.out.println("Id do produto " + i + ": " + item.getId());
+						System.out.println("Tipo do produto " + i + ": " + item.getTipoProduto());
+						System.out.println("Especie do produto " + i + ": " + item.getEspecie());
+						System.out.println("Validade do produto " + i + ": " + item.getValidade());
+						System.out.println("Preco do produto " + i + ": " + item.getPreco());
+						System.out.println();
+						i++;
+					}
+					System.out.println("Fim do estoque!\n");
+					System.out.println("Deseja adicionar um item ao carrinho?");
+					String opc2 = leitura.nextLine();
+					
+					if(!opc2.equalsIgnoreCase("SIM")) {
+						carrinho.add(adicionarCarrinho());
+					}
+				}
+			}
+				break;
+			case 3: {
+				System.out.println("Voce escolheu sair!");
+			}
+				break;
+			default: {
+				System.out.println("Opção invalida, tente novamente!");
+			}
+				break;
+
+			}
+		}
+		
+		return opc;
+
+	}
 
 //	----------------------------------MENUS-----------------------------------------------------------------------
 
@@ -128,7 +254,6 @@ public class KanepeMain {
 		Scanner leitura = new Scanner(System.in);
 
 		Integer opcao = Integer.valueOf(leitura.nextLine());
-
 		return opcao;
 
 	}
@@ -163,7 +288,7 @@ public class KanepeMain {
 				}
 			}
 		}
-
+		
 		return pessoa;
 	}
 
@@ -198,7 +323,7 @@ public class KanepeMain {
 				}
 			}
 		}
-
+		
 		return loginValido ? pessoa : null;
 	}
 
@@ -232,7 +357,7 @@ public class KanepeMain {
 			}
 
 		}
-
+		
 		return loginValido ? true : null;
 	}
 
@@ -263,6 +388,7 @@ public class KanepeMain {
 
 		System.out.println("Adcioando com Sucesso");
 
+		
 		return item;
 	}
 
@@ -276,10 +402,12 @@ public class KanepeMain {
 		for (Estoque item : listaItens) {
 			if (id == item.getId()) {
 				listaItens.remove(item);
+				
 				return true;
 			}
 		}
 
+		
 		return false;
 	}
 
@@ -355,14 +483,17 @@ public class KanepeMain {
 					item.setValidade(novaValidadeCompleto);
 					item.setPreco(novoPrecoCompleto);
 					break;
-				default:
+				default: {
+					System.out.println("Opção invalida, tente novamente!");
+				}
 					break;
 				}
-
+				
 				return true;
 			}
 		}
 
+		
 		return false;
 	}
 
@@ -468,9 +599,75 @@ public class KanepeMain {
 			System.out.println("Voce escolheu sair!");
 		}
 			break;
+		default: {
+			System.out.println("Opção invalida, tente novamente!");
+		}
+			break;
 
 		}
+		
 		return null;
 	}
+
+	
+//------------------------------------------adicionar ao carrinho----------------------------------------------------------
+
+	private static Estoque adicionarCarrinho() {
+	
+		Scanner leitura = new Scanner(System.in);
+		
+		System.out.println("Digite o ID do Produto pra ser adicionar ao Carrinho");
+		Integer id = Integer.valueOf(leitura.nextLine());
+		
+		for (Estoque item : listaItens) {
+			if (id.equals(item.getId())) {
+
+				System.out.println("Nome do produto " + item.getNome());
+				System.out.println("Id do produto " + item.getId());
+				System.out.println("Tipo do produto " + item.getTipoProduto());
+				System.out.println("Especie do produto " + item.getEspecie());
+				System.out.println("Validade do produto " + item.getValidade());
+				System.out.println("Preco do produto " + item.getPreco());
+				System.out.println();
+			
+				System.out.println("Este é o produto?(S/N)");
+				String resposta = leitura.nextLine();
+				
+				if (resposta.equalsIgnoreCase("S")) {
+					Estoque itemCarrinho = new Estoque();
+					
+					itemCarrinho.setNome(item.getNome());
+					itemCarrinho.setEspecie(item.getEspecie());
+					itemCarrinho.setId(item.getId());
+					itemCarrinho.setValidade(item.getValidade());
+					itemCarrinho.setPreco(item.getPreco());
+					itemCarrinho.setTipoProduto(item.getTipoProduto());
+					
+					System.out.println("Item adicinado ao carrinho");
+					return itemCarrinho;
+				}else {
+					System.out.println("Ok!");
+				}
+				
+				
+			}
+			
+		}
+	
+		return null;
+	}
+	
+	
+	
+			
+			
+
+
+
+
+
+
+
+
 
 }
