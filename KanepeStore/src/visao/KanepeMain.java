@@ -11,9 +11,14 @@ public class KanepeMain {
 
 	private static final String NOMEADM = "LoginADM";
 	private static final String SENHAADM = "SenhaADM";
-	private static ArrayList<Planta> listaItens = new ArrayList<>();
-	private static ArrayList<Usuario> novoCadastro = new ArrayList<>();
+//	private static ArrayList<Planta> listaItens = new ArrayList<>();//	private static ArrayList<Usuario> novoCadastro = new ArrayList<>();
+	
+	
+	
 	private static ArrayList<Planta> carrinho = new ArrayList<>();
+	
+	
+	private static PlantaDAO pDAO = PlantaDAO.getInstancia();
 
 	public static void main(String[] args) {
 
@@ -90,7 +95,7 @@ public class KanepeMain {
 
 			switch (opcao) {
 			case 0: {
-				listaItens.add(adicionarItem());
+				pDAO.inserirPlanta(adicionarItem());
 
 			}
 				break;
@@ -101,6 +106,9 @@ public class KanepeMain {
 				} else {
 					System.out.println("Removido com sucesso!");
 				}
+
+//				pDAO.removerPlanta(removerItem());
+
 			}
 				break;
 			case 2: {
@@ -151,7 +159,7 @@ public class KanepeMain {
 			case 0: {
 				int i = 1;
 
-				for (Planta estoque : listaItens) {
+				for (Planta estoque : pDAO.listarPlanta()) {
 
 					System.out.println("Nome do produto " + i + ": " + estoque.getNome());
 					System.out.println("Id do produto " + i + ": " + estoque.getId());
@@ -402,15 +410,9 @@ public class KanepeMain {
 		System.out.println("Digite id od item que deseja ser apagado.");
 		Integer id = Integer.valueOf(leitura.nextLine());
 
-		for (Planta item : listaItens) {
-			if (id == item.getId()) {
-				listaItens.remove(item);
+		boolean retorno = pDAO.removerPlanta(id);
+		return retorno;
 
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 // =================================================Alterar===============================================================	
@@ -420,82 +422,80 @@ public class KanepeMain {
 		System.out.println("Digite o ID do item que deseja ser alterado:");
 		Integer id = Integer.valueOf(leitura.nextLine());
 
-		for (Planta item : listaItens) {
-			if (id.equals(item.getId())) {
-				System.out.println("Qual informação deseja alterar?");
-				System.out.println("0 - Nome");
-				System.out.println("1 - ID");
-				System.out.println("2 - Tipo");
-				System.out.println("3 - Espécie");
-				System.out.println("4 - Validade");
-				System.out.println("5 - Preço");
-				System.out.println("6 - Todas as informações");
-				int opc = Integer.valueOf(leitura.nextLine());
+		Planta item = pDAO.buscaPlantaPorId(id);
 
-				switch (opc) {
-				case 0:
-					System.out.println("Digite o novo nome: ");
-					String novoNome = leitura.nextLine();
-					item.setNome(novoNome);
-					break;
-				case 1:
-					System.out.println("Digite o novo ID: ");
-					Integer novoId = Integer.valueOf(leitura.nextLine());
-					item.setId(novoId);
-					break;
-				case 2:
-					System.out.println("Digite o novo tipo: ");
-					String novoTipo = leitura.nextLine();
-					item.setTipoProduto(novoTipo);
-					break;
-				case 3:
-					System.out.println("Digite a nova espécie: ");
-					String novaEspecie = leitura.nextLine();
-					item.setEspecie(novaEspecie);
-					break;
-				case 4:
-					System.out.println("Digite a nova validade: ");
-					String novaValidade = leitura.nextLine();
-					item.setValidade(novaValidade);
-					break;
-				case 5:
-					System.out.println("Digite o novo preço: ");
-					Double novoPreco = Double.valueOf(leitura.nextLine());
-					item.setPreco(novoPreco);
-					break;
-				case 6:
-					System.out.println("Digite as novas informações:");
-					System.out.println("Digite o novo nome: ");
-					String novoNomeCompleto = leitura.nextLine();
-					System.out.println("Digite o novo ID: ");
-					Integer novoIdCompleto = Integer.valueOf(leitura.nextLine());
-					System.out.println("Digite o novo tipo: ");
-					String novoTipoCompleto = leitura.nextLine();
-					System.out.println("Digite a nova espécie: ");
-					String novaEspecieCompleto = leitura.nextLine();
-					System.out.println("Digite a nova validade: ");
-					String novaValidadeCompleto = leitura.nextLine();
-					System.out.println("Digite o novo preço: ");
-					Double novoPrecoCompleto = Double.valueOf(leitura.nextLine());
+		System.out.println("Qual informação deseja alterar?");
+		System.out.println("0 - Nome");
+		System.out.println("1 - ID");
+		System.out.println("2 - Tipo");
+		System.out.println("3 - Espécie");
+		System.out.println("4 - Validade");
+		System.out.println("5 - Preço");
+		System.out.println("6 - Todas as informações");
+		int opc = Integer.valueOf(leitura.nextLine());
 
-					item.setNome(novoNomeCompleto);
-					item.setId(novoIdCompleto);
-					item.setTipoProduto(novoTipoCompleto);
-					item.setEspecie(novaEspecieCompleto);
-					item.setValidade(novaValidadeCompleto);
-					item.setPreco(novoPrecoCompleto);
-					break;
-				default: {
-					System.out.println("Opção invalida, tente novamente!");
-				}
-					break;
-				}
+		switch (opc) {
+		case 0:
+			System.out.println("Digite o novo nome: ");
+			String novoNome = leitura.nextLine();
+			item.setNome(novoNome);
+			break;
+		case 1:
+			System.out.println("Digite o novo ID: ");
+			Integer novoId = Integer.valueOf(leitura.nextLine());
+			item.setId(novoId);
+			break;
+		case 2:
+			System.out.println("Digite o novo tipo: ");
+			String novoTipo = leitura.nextLine();
+			item.setTipoProduto(novoTipo);
+			break;
+		case 3:
+			System.out.println("Digite a nova espécie: ");
+			String novaEspecie = leitura.nextLine();
+			item.setEspecie(novaEspecie);
+			break;
+		case 4:
+			System.out.println("Digite a nova validade: ");
+			String novaValidade = leitura.nextLine();
+			item.setValidade(novaValidade);
+			break;
+		case 5:
+			System.out.println("Digite o novo preço: ");
+			Double novoPreco = Double.valueOf(leitura.nextLine());
+			item.setPreco(novoPreco);
+			break;
+		case 6:
+			System.out.println("Digite as novas informações:");
+			System.out.println("Digite o novo nome: ");
+			String novoNomeCompleto = leitura.nextLine();
+			System.out.println("Digite o novo ID: ");
+			Integer novoIdCompleto = Integer.valueOf(leitura.nextLine());
+			System.out.println("Digite o novo tipo: ");
+			String novoTipoCompleto = leitura.nextLine();
+			System.out.println("Digite a nova espécie: ");
+			String novaEspecieCompleto = leitura.nextLine();
+			System.out.println("Digite a nova validade: ");
+			String novaValidadeCompleto = leitura.nextLine();
+			System.out.println("Digite o novo preço: ");
+			Double novoPrecoCompleto = Double.valueOf(leitura.nextLine());
 
-				return true;
-			}
+			item.setNome(novoNomeCompleto);
+			item.setId(novoIdCompleto);
+			item.setTipoProduto(novoTipoCompleto);
+			item.setEspecie(novaEspecieCompleto);
+			item.setValidade(novaValidadeCompleto);
+			item.setPreco(novoPrecoCompleto);
+			return pDAO.alterarPlanta(item);
+
+		default: {
+			System.out.println("Opção invalida, tente novamente!");
+		}
+			break;
 		}
 
 		return false;
+
 	}
 
 // =================================================Listar===============================================================
@@ -514,18 +514,14 @@ public class KanepeMain {
 		case 0: {
 			int i = 1;
 
-			PlantaDAO dao = new PlantaDAO();
-			dao.listar();
-			
+			for (Planta plantas : pDAO.listarPlanta()) {
 
-		for (Planta estoque : listaItens) {
-
-				System.out.println("Nome do item " + i + ": " + estoque.getNome());
-				System.out.println("Id do item " + i + ": " + estoque.getId());
-				System.out.println("Tipo do item " + i + ": " + estoque.getTipoProduto());
-				System.out.println("Espécie do item " + i + ": " + estoque.getEspecie());
-				System.out.println("Validade do item " + i + ": " + estoque.getValidade());
-				System.out.println("Preço do item " + i + ": " + estoque.getPreco());
+				System.out.println("Nome do item " + i + ": " + plantas.getNome());
+				System.out.println("Id do item " + i + ": " + plantas.getId());
+				System.out.println("Tipo do item " + i + ": " + plantas.getTipoProduto());
+				System.out.println("Espécie do item " + i + ": " + plantas.getEspecie());
+				System.out.println("Validade do item " + i + ": " + plantas.getValidade());
+				System.out.println("Preço do item " + i + ": " + plantas.getPreco());
 				System.out.println();
 				i++;
 
@@ -539,7 +535,7 @@ public class KanepeMain {
 			String nome = leitura.nextLine();
 			int i = 1;
 
-			for (Planta item : listaItens) {
+			for (Planta item : pDAO.listarPlanta()) {
 				if (nome.equals(item.getNome())) {
 
 					System.out.println("Nome do item " + i + ": " + item.getNome());
@@ -561,7 +557,7 @@ public class KanepeMain {
 			String tipo = leitura.nextLine();
 			int i = 1;
 
-			for (Planta item : listaItens) {
+			for (Planta item : pDAO.listarPlanta()) {
 				if (tipo.equals(item.getTipoProduto())) {
 
 					System.out.println("Nome do item " + i + ": " + item.getNome());
@@ -583,7 +579,7 @@ public class KanepeMain {
 			Integer id = Integer.valueOf(leitura.nextLine());
 			int i = 1;
 
-			for (Planta item : listaItens) {
+			for (Planta item : pDAO.listarPlanta()) {
 				if (id.equals(item.getId())) {
 
 					System.out.println("Nome do item " + i + ": " + item.getNome());
@@ -623,7 +619,7 @@ public class KanepeMain {
 		System.out.println("Digite o ID do Produto pra ser adicionar ao Carrinho");
 		Integer id = Integer.valueOf(leitura.nextLine());
 
-		for (Planta item : listaItens) {
+		for (Planta item : pDAO.listarPlanta()) {
 			if (id.equals(item.getId())) {
 
 				System.out.println("Nome do produto " + item.getNome());
@@ -660,4 +656,5 @@ public class KanepeMain {
 		return null;
 	}
 
+}
 }
