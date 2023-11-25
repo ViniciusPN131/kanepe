@@ -45,8 +45,9 @@ public class CarrinhoDAO implements ICarrinhoDAO{
 
 	@Override
 	public ArrayList<Planta> listarItensCarrinho() {
-		return listaCarrinho;
+	    return listaCarrinho;
 	}
+
 
 	@Override
 	public Planta buscaItemCarrinhoPorId(int idCarrinho) {

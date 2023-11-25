@@ -29,7 +29,7 @@ public class KanepeMain {
 			switch (opcao) {
 			case 0: {
 				uDAO.inserirUsuario(cadastro());
-				
+
 			}
 				break;
 			case 1: {
@@ -65,7 +65,7 @@ public class KanepeMain {
 				Planta item = new Planta();
 				Planta item1 = new Planta();
 				Planta item2 = new Planta();
-				
+
 				item.setNome("1");
 				item.setEspecie("1");
 				item.setId(1);
@@ -73,7 +73,7 @@ public class KanepeMain {
 				item.setTipoProduto("1");
 				item.setValidade("1");
 				pDAO.inserirPlanta(item);
-				
+
 				item1.setNome("2");
 				item1.setEspecie("2");
 				item1.setId(2);
@@ -81,7 +81,7 @@ public class KanepeMain {
 				item1.setTipoProduto("2");
 				item1.setValidade("2");
 				pDAO.inserirPlanta(item1);
-				
+
 				item2.setNome("3");
 				item2.setEspecie("3");
 				item2.setId(3);
@@ -89,7 +89,7 @@ public class KanepeMain {
 				item2.setTipoProduto("3");
 				item2.setValidade("3");
 				pDAO.inserirPlanta(item2);
-				
+
 				menuADM();
 			}
 				break;
@@ -170,7 +170,7 @@ public class KanepeMain {
 	private static Integer menuUser() {
 		int opc = 0;
 		Scanner leitura = new Scanner(System.in);
-		while (opc != 3) {
+		while (opc != 4) {
 			System.out.println("-------------------------------------");
 			System.out.println("              KanepeStore            ");
 			System.out.println("-------------------------------------");
@@ -184,8 +184,11 @@ public class KanepeMain {
 
 			switch (opc) {
 			case 0: {
-				int i = 1;
 
+				int i = 1;
+				System.out.println("-------------------------------------");
+				System.out.println("       LISTA DE ITENS DO ESTOQUE     ");
+				System.out.println("-------------------------------------");
 				for (Planta estoque : pDAO.listarPlanta()) {
 
 					System.out.println("Nome do produto " + i + ": " + estoque.getNome());
@@ -212,7 +215,9 @@ public class KanepeMain {
 				System.out.println("Digite o nome do produto: ");
 				String nome = leitura.nextLine();
 				int i = 1;
-
+				System.out.println("-------------------------------------");
+				System.out.println("       LISTA DE ITENS DO ESTOQUE     ");
+				System.out.println("-------------------------------------");
 				for (Planta item : pDAO.listarPlanta()) {
 					if (nome.equals(item.getNome())) {
 
@@ -225,13 +230,14 @@ public class KanepeMain {
 						System.out.println();
 						i++;
 					}
-					System.out.println("Fim do estoque!\n");
-					System.out.println("Deseja adicionar um item ao carrinho?(S/N)");
-					String opc2 = leitura.nextLine();
 
-					if (opc2.equalsIgnoreCase("S")) {
-						cDAO.inserirAoCarrinho(adicionarCarrinho());
-					}
+				}
+				System.out.println("Fim do estoque!\n");
+				System.out.println("Deseja adicionar um item ao carrinho?(S/N)");
+				String opc2 = leitura.nextLine();
+
+				if (opc2.equalsIgnoreCase("S")) {
+					cDAO.inserirAoCarrinho(adicionarCarrinho());
 				}
 			}
 				break;
@@ -239,7 +245,9 @@ public class KanepeMain {
 				System.out.println("Digite o tipo do produto: ");
 				String tipo = leitura.nextLine();
 				int i = 1;
-
+				System.out.println("-------------------------------------");
+				System.out.println("       LISTA DE ITENS DO ESTOQUE     ");
+				System.out.println("-------------------------------------");
 				for (Planta item : pDAO.listarPlanta()) {
 					if (tipo.equals(item.getTipoProduto())) {
 
@@ -252,32 +260,42 @@ public class KanepeMain {
 						System.out.println();
 						i++;
 					}
-					System.out.println("Fim do estoque!\n");
-					System.out.println("Deseja adicionar um item ao carrinho?(S/N)");
-					String opc2 = leitura.nextLine();
 
-					if (opc2.equalsIgnoreCase("S")) {
-						cDAO.inserirAoCarrinho(adicionarCarrinho());					}
+				}
+				System.out.println("Fim do estoque!\n");
+				System.out.println("Deseja adicionar um item ao carrinho?(S/N)");
+				String opc2 = leitura.nextLine();
+
+				if (opc2.equalsIgnoreCase("S")) {
+					cDAO.inserirAoCarrinho(adicionarCarrinho());
 				}
 			}
 				break;
 			case 3: {
-				int i = 1;
+				if (cDAO.listarItensCarrinho().isEmpty()) {
+					System.out.println("Carrinho vazio!");
 
-				for (Planta plantas : cDAO.listarItensCarrinho()) {
+				} else {
+					int i = 1;
+					System.out.println("-------------------------------------");
+					System.out.println("      LISTA DE ITENS DO CARRINHO     ");
+					System.out.println("-------------------------------------");
+					for (Planta plantas : cDAO.listarItensCarrinho()) {
 
-					System.out.println("Nome do item " + i + ": " + plantas.getNome());
-					System.out.println("Id do item " + i + ": " + plantas.getId());
-					System.out.println("Tipo do item " + i + ": " + plantas.getTipoProduto());
-					System.out.println("Espécie do item " + i + ": " + plantas.getEspecie());
-					System.out.println("Validade do item " + i + ": " + plantas.getValidade());
-					System.out.println("Preço do item " + i + ": " + plantas.getPreco());
-					System.out.println();
-					i++;
+						System.out.println("Nome do item " + i + ": " + plantas.getNome());
+						System.out.println("Id do item " + i + ": " + plantas.getId());
+						System.out.println("Tipo do item " + i + ": " + plantas.getTipoProduto());
+						System.out.println("Espécie do item " + i + ": " + plantas.getEspecie());
+						System.out.println("Validade do item " + i + ": " + plantas.getValidade());
+						System.out.println("Preço do item " + i + ": " + plantas.getPreco());
+						System.out.println();
+						i++;
+
+					}
+					System.out.println("Fim do Carrinho!");
 
 				}
-				System.out.println("Fim do Carrinho!");
-				listarItens();
+
 			}
 				break;
 			case 4: {
